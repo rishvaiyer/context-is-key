@@ -4,15 +4,11 @@
 
 ### Context before action.
 
-**Turn an SRS or incident brief into a grounded, chronological investigation—before a schema change becomes an outage.**
+**Turn an SRS or incident brief into a grounded, chronological investigation, before a schema change becomes an outage.**
 
-[![Live demo](https://img.shields.io/badge/Live_demo-Railway-0b7a75?style=for-the-badge)](https://changeproof-production.up.railway.app/triage)
-[![DataHub MCP](https://img.shields.io/badge/DataHub-MCP_context-ff7a45?style=for-the-badge)](https://docs.datahub.com/docs/features/feature-guides/mcp)
-[![License](https://img.shields.io/badge/License-Apache--2.0-1f2937?style=for-the-badge)](LICENSE)
+[Open the live demo](https://changeproof-production.up.railway.app/triage) · [Workflow](#workflow) · [Architecture](#architecture)
 
-**DataHub supplies the enterprise context. contextIsKey turns it into a reviewable investigation.**
-
-[Open the live demo](https://changeproof-production.up.railway.app/triage) · [Explore the workflow](#workflow) · [Read the architecture](#architecture) · [Meet the creator](#creator)
+Apache-2.0. Built on the official [DataHub MCP server](https://docs.datahub.com/docs/features/feature-guides/mcp).
 
 </div>
 
@@ -51,12 +47,12 @@ Reviewable fixes · validation · rollback · rollout gates
 
 ### At a glance
 
-| Capability | What contextIsKey does |
+| Area | What it does |
 | --- | --- |
-| **Depth of DataHub usage** | Repeated, named context lookups for datasets, columns, owners, glossary terms, lineage, entities, and query history. |
-| **Technical execution** | Document extraction, deterministic mapping, SQL module discovery, impact graph, exports, SARIF, and an optional grounded AI review. |
-| **Real-world usefulness** | A cross-functional accounts-receivable incident spanning Commerce, Finance, Payments, Returns, Fulfillment, Identity, and Regional Policy. |
-| **Trust and safety** | No automatic SQL execution, no silent AI changes, explicit unmapped rules, human approval, rollback controls, and honest evidence labels. |
+| **DataHub lookups** | Named context lookups for datasets, columns, owners, glossary terms, lineage, entities, and query history. |
+| **Analysis** | Document extraction, deterministic rule-to-asset mapping, SQL module discovery, impact graph, exports, and SARIF. |
+| **Scenario** | A cross-functional accounts-receivable incident spanning Commerce, Finance, Payments, Returns, Fulfillment, Identity, and Regional Policy. |
+| **Safeguards** | No automatic SQL execution, no silent AI changes, explicit unmapped rules, human approval, and rollback controls. |
 
 ## Workflow
 
@@ -83,7 +79,7 @@ Start with the included accounts-receivable incident, then visit seven focused w
 1. Open the [Triage Composer](https://changeproof-production.up.railway.app/triage).
 2. Click **Load example** or upload the included SRS-style incident brief.
 3. Point out the **Context graph coverage** cards: the app names the context types that shaped the result.
-4. Scroll to **How DataHub context helped—step by step**. Each lookup explains how metadata changed the query.
+4. Scroll to **How DataHub context helped, step by step**. Each lookup explains how metadata changed the query.
 5. Open **Impact graph** to show DataHub lineage plus the four hidden SQL Server consumers.
 6. Open **Regions** to turn technical dependencies into an executive risk view.
 7. Finish in **Fix Studio**: download the query, proposed fixes, validation SQL, rollback SQL, JSON, or SARIF.
@@ -106,7 +102,7 @@ The original binary is discarded after extraction. OpenAI receives extracted tex
 
 ## Product surfaces
 
-The UI is designed to make the context chain visible at a glance—not hide it behind a chat transcript.
+The UI is designed to make the context chain visible at a glance, not hide it behind a chat transcript.
 
 <table>
   <tr>
@@ -332,17 +328,13 @@ CHANGE_PROOF_LIVE_DATAHUB=1 uv run pytest tests/integration/test_datahub_context
 - Dynamic SQL and absent region metadata require manual review.
 - Regional flags are coordination signals, not legal-compliance determinations.
 
-## DataHub-first by design
+## How DataHub is used
 
-DataHub is the context layer behind the investigation—not a logo added after the fact. The workflow repeatedly uses asset discovery, schema fields, entities, lineage, query history, ownership, glossary terms, and structured properties to constrain each decision. The result is a practical agent workflow: metadata in, evidence-backed investigation out.
+The workflow constrains every decision with asset discovery, schema fields, entities, lineage, query history, ownership, glossary terms, and structured properties. Metadata goes in, an evidence-backed investigation comes out.
 
-The hosted demo uses a deterministic DataHub-shaped evidence bundle; the included MCP adapter switches the same workflow to live DataHub context when a tenant is available.
+The hosted demo uses a deterministic DataHub-shaped evidence bundle. The included MCP adapter switches the same workflow to live DataHub context when a tenant is available.
 
-## Creator
-
-**Made by Rishva Iyer** for the DataHub Agent Hackathon.
-
-The fictional AsterVale Living dataset is deliberately synthetic, but the workflow models a real enterprise problem: a cross-functional identifier migration that must be understood before it is changed.
+The AsterVale Living dataset is synthetic, but the workflow models a real problem: a cross-functional identifier migration that has to be understood before it is changed.
 
 ## License
 
