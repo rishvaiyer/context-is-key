@@ -7,40 +7,33 @@
     <title>{% block title %}contextIsKey{% endblock %} · DataHub context layer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap">
     <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/minimal.css">
   </head>
   <body>
-    <div class="ambient ambient-one"></div>
-    <div class="ambient ambient-two"></div>
     <div class="app-shell">
       <aside class="sidebar">
         <a class="brand" href="/{{ nav_query }}" aria-label="contextIsKey home">
-          <span class="brand-mark"><i></i><i></i><i></i></span>
-          <span><strong>contextIsKey</strong><small>DataHub context layer</small></span>
+          <span><strong>contextIsKey</strong><small>Context before action.</small></span>
         </a>
 
-        <div class="workspace-card">
-          <span class="workspace-icon">CP</span>
-          <span><small>Enterprise workspace</small><strong>{{ analysis.company_name if analysis else "AsterVale Living" }}</strong></span>
-          <i class="live-dot" title="Demo active"></i>
-        </div>
-
         <nav class="primary-nav" aria-label="Primary navigation">
-          <p>Workspace</p>
-          <a href="/{{ nav_query }}"{% if page == "analyze" %} class="active" aria-current="page"{% endif %}><span>⌁</span>Analyze</a>
-          <a href="/impact{{ nav_query }}"{% if page == "impact" %} class="active" aria-current="page"{% endif %}><span>⌘</span>Impact graph</a>
-          <a href="/regions{{ nav_query }}"{% if page == "regions" %} class="active" aria-current="page"{% endif %}><span>◎</span>Regions</a>
-          <a href="/fixes{{ nav_query }}"{% if page == "fixes" %} class="active" aria-current="page"{% endif %}><span>✦</span>Fix studio</a>
-          <a href="/rollout{{ nav_query }}"{% if page == "rollout" %} class="active" aria-current="page"{% endif %}><span>↗</span>Rollout</a>
-          <p>Catalog</p>
-          <a href="/datahub{{ nav_query }}"{% if page == "datahub" %} class="active" aria-current="page"{% endif %}><span>◇</span>DataHub actions</a>
-          <a href="/triage"{% if page == "triage" %} class="active" aria-current="page"{% endif %}><span>⌗</span>Triage composer</a>
+          <p>Investigate</p>
+          <a href="/triage"{% if page == "triage" %} class="active" aria-current="page"{% endif %}>Triage Composer</a>
+          <a href="/{{ nav_query }}"{% if page == "analyze" %} class="active" aria-current="page"{% endif %}>Analyze change</a>
+          <a href="/impact{{ nav_query }}"{% if page == "impact" %} class="active" aria-current="page"{% endif %}>Impact graph</a>
+          <p>Decide</p>
+          <a href="/regions{{ nav_query }}"{% if page == "regions" %} class="active" aria-current="page"{% endif %}>Regions</a>
+          <a href="/fixes{{ nav_query }}"{% if page == "fixes" %} class="active" aria-current="page"{% endif %}>Fix Studio</a>
+          <a href="/rollout{{ nav_query }}"{% if page == "rollout" %} class="active" aria-current="page"{% endif %}>Release plan</a>
+          <a href="/datahub{{ nav_query }}"{% if page == "datahub" %} class="active" aria-current="page"{% endif %}>DataHub approval</a>
+          <p>Reference</p>
+          <a href="/documentation/architecture">Architecture</a>
         </nav>
 
         <div class="sidebar-status">
-          <span class="status-orb"></span>
-          <div><strong>Evidence online</strong><small>Deterministic demo</small></div>
+          <div><strong>Bundled demo</strong><small>Synthetic DataHub-shaped evidence</small></div>
         </div>
       </aside>
 
@@ -48,12 +41,17 @@
         <header class="topbar">
           <div class="breadcrumb"><span>{{ analysis.company_name if analysis else "contextIsKey" }}</span><b>/</b>{% block breadcrumb %}Change intelligence{% endblock %}</div>
           <div class="topbar-actions">
-            <span class="evidence-badge"><i></i>{% if page == "triage" %}Bundled DataHub context{% else %}{{ analysis.evidence_source if analysis else "Evidence unavailable" }}{% endif %}</span>
-            <a class="avatar" href="/datahub{{ nav_query }}" aria-label="Open DataHub actions">RI</a>
+            <span class="evidence-badge">{% if page == "triage" %}Bundled DataHub context{% else %}{{ analysis.evidence_source if analysis else "Evidence unavailable" }}{% endif %}</span>
           </div>
         </header>
 
         <div class="page-wrap">
+          <nav class="process-nav" aria-label="Investigation stages">
+            <a href="/triage"{% if page == "triage" %} aria-current="step"{% endif %}><b>1</b><span>Requirements</span></a>
+            <a href="/impact{{ nav_query }}"{% if page in ["analyze", "impact"] %} aria-current="step"{% endif %}><b>2</b><span>Evidence</span></a>
+            <a href="/fixes{{ nav_query }}"{% if page in ["regions", "fixes", "rollout"] %} aria-current="step"{% endif %}><b>3</b><span>Plan</span></a>
+            <a href="/datahub{{ nav_query }}"{% if page == "datahub" %} aria-current="step"{% endif %}><b>4</b><span>Approve</span></a>
+          </nav>
           {% if error %}<div class="alert alert-error" role="alert"><strong>Analysis unavailable</strong><span>{{ error }}</span></div>{% endif %}
           {% block content %}{% endblock %}
           {% if page != "triage" and analysis and analysis.artifacts %}
@@ -66,10 +64,7 @@
             </div>
           </section>
           {% endif %}
-          <footer>
-            <span><strong>contextIsKey</strong> · DataHub context layer · Apache-2.0</span>
-            <span>Made by <strong>Rishva Iyer</strong> · Built for the DataHub Agent Hackathon</span>
-          </footer>
+          <footer><span><strong>contextIsKey</strong> · Context before action.</span><a href="/documentation/architecture">Architecture</a></footer>
         </div>
       </main>
     </div>
