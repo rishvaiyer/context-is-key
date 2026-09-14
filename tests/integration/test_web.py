@@ -25,6 +25,18 @@ def test_healthz() -> None:
     assert response.json() == {"status": "ok", "service": "changeproof"}
 
 
+def test_architecture_documentation_is_source_grounded() -> None:
+    response = client.get("/documentation/architecture")
+    alias_response = client.get("/docs/architecture")
+
+    assert response.status_code == 200
+    assert alias_response.status_code == 200
+    assert "Architecture | contextIsKey documentation" in response.text
+    assert "Source verified" in response.text
+    assert "DataHub MCP adapter" in response.text
+    assert "Generated SQL is review material" in response.text
+
+
 def test_dashboard_labels_demo_evidence() -> None:
     response = client.get("/")
 
@@ -32,6 +44,18 @@ def test_dashboard_labels_demo_evidence() -> None:
     assert "contextIsKey" in response.text
     assert "Bundled AsterVale Living DataHub metadata" in response.text
     assert 'href="/static/styles.css"' in response.text
+    assert 'href="/static/minimal.css"' in response.text
+    assert 'aria-label="Investigation stages"' in response.text
+
+
+def test_triage_uses_the_minimal_context_first_workflow() -> None:
+    response = client.get("/triage")
+
+    assert response.status_code == 200
+    assert "What needs investigation?" in response.text
+    assert "Show the context used" in response.text
+    assert "Context before action." in response.text
+    assert "Architecture" in response.text
 
 
 def test_analyze_renders_downstream_impact_and_safe_fix() -> None:

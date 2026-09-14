@@ -303,6 +303,18 @@ def create_app(analysis_provider: AnalysisProvider | None = None) -> FastAPI:
             requirements_text=SAMPLE_SRS_TEXT,
         )
 
+    @application.get("/documentation/architecture", response_class=HTMLResponse)
+    def documentation_architecture(request: Request) -> HTMLResponse:
+        return templates.TemplateResponse(
+            request=request,
+            name="documentation_architecture.html",
+            context={},
+        )
+
+    @application.get("/docs/architecture", response_class=HTMLResponse)
+    def docs_architecture_alias(request: Request) -> HTMLResponse:
+        return documentation_architecture(request)
+
     @application.post("/analyze", response_class=HTMLResponse)
     async def analyze(request: Request) -> HTMLResponse:
         values = _form_values(await request.body())
