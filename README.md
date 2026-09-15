@@ -6,7 +6,7 @@
 
 **Turn an SRS or incident brief into a grounded, chronological investigation, before a schema change becomes an outage.**
 
-[Open the live demo](https://changeproof-production.up.railway.app/triage) · [Workflow](#workflow) · [Architecture](#architecture)
+[Open the live demo](https://changeproof-production.up.railway.app/triage) · [Architecture documentation](https://rishvaiyer.github.io/context-is-key/) · [Workflow](#workflow)
 
 Apache-2.0. Built on the official [DataHub MCP server](https://docs.datahub.com/docs/features/feature-guides/mcp).
 
