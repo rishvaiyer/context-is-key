@@ -21,7 +21,7 @@
         <nav class="primary-nav" aria-label="Primary navigation">
           <p>Investigate</p>
           <a href="/triage"{% if page == "triage" %} class="active" aria-current="page"{% endif %}>Triage Composer</a>
-          <a href="/{{ nav_query }}"{% if page == "analyze" %} class="active" aria-current="page"{% endif %}>Analyze change</a>
+          <a href="/{{ nav_query }}"{% if page == "analyze" %} class="active" aria-current="page"{% endif %}>Overview</a>
           <a href="/impact{{ nav_query }}"{% if page == "impact" %} class="active" aria-current="page"{% endif %}>Impact graph</a>
           <p>Decide</p>
           <a href="/regions{{ nav_query }}"{% if page == "regions" %} class="active" aria-current="page"{% endif %}>Regions</a>
@@ -39,7 +39,7 @@
 
       <main class="main-panel">
         <header class="topbar">
-          <div class="breadcrumb"><span>{{ analysis.company_name if analysis else "contextIsKey" }}</span><b>/</b>{% block breadcrumb %}Change intelligence{% endblock %}</div>
+          <div class="breadcrumb"><span>{{ analysis.company_name if analysis else "contextIsKey" }}</span><b>/</b>{% block breadcrumb %}Overview{% endblock %}</div>
           <div class="topbar-actions">
             <span class="evidence-badge">{% if page == "triage" %}Bundled DataHub context{% else %}{{ analysis.evidence_source if analysis else "Evidence unavailable" }}{% endif %}</span>
           </div>

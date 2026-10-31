@@ -4,9 +4,9 @@
 {% block content %}
 <section class="page-heading heading-row">
   <div>
-    <span class="kicker"><i></i>PRE-PRODUCTION CHANGE INTELLIGENCE</span>
+    <span class="kicker"><i></i>DATAHUB CONTEXT LAYER</span>
     <h1>Change intelligence</h1>
-    <p>See the lineage, hidden code, regional exposure, and safest rollout before a schema change reaches production.</p>
+    <p>An AI can write the migration SQL in seconds. It cannot know which dashboards, stored procedures and regions break. contextIsKey finds that out first, from DataHub metadata and the code the catalog never saw, and hands a human the plan.</p>
   </div>
   <span class="environment-chip"><i></i>{% if analysis and analysis.company_name == "AsterVale Living" %}PROD · 420 STORES{% else %}VALIDATED SCENARIO{% endif %}</span>
 </section>
@@ -34,6 +34,29 @@
   <article class="metric-card"><span class="metric-icon pink">◎</span><div><small>REGIONS</small><strong>{{ analysis.region_exposures | length }}</strong><p>Exposure groups</p></div></article>
   <article class="metric-card"><span class="metric-icon amber">!</span><div><small>CRITICAL</small><strong>{{ analysis.impact.critical_assets | length }}</strong><p>Assets need review</p></div></article>
   <article class="metric-card"><span class="metric-icon green">✓</span><div><small>CONFIDENCE</small><strong>{{ analysis.impact.confidence.value }}</strong><p>Observed graph</p></div></article>
+</section>
+
+<section class="journey" aria-label="Investigation in four steps">
+  <a class="journey-step" href="/triage">
+    <span class="journey-index">1</span>
+    <div><small>REQUIREMENTS</small><strong>{% if triage_summary %}{{ triage_summary.mapped }} of {{ triage_summary.rules }} rules mapped{% else %}Map the brief{% endif %}</strong><p>Paste an incident brief. Every rule lands on one bounded DataHub asset, owner and term{% if triage_summary %}, across {{ triage_summary.domains }} domains{% endif %}.</p></div>
+    <b>Open Triage Composer →</b>
+  </a>
+  <a class="journey-step" href="/impact{{ nav_query }}">
+    <span class="journey-index">2</span>
+    <div><small>EVIDENCE</small><strong>{{ analysis.impact.impacted_assets | length }} assets + {{ analysis.sql_dependencies | length }} hidden SQL modules</strong><p>DataHub lineage plus a read-only scan of <code>sys.sql_modules</code>, drawn as one dependency map.</p></div>
+    <b>See the dependency map →</b>
+  </a>
+  <a class="journey-step" href="/fixes{{ nav_query }}">
+    <span class="journey-index">3</span>
+    <div><small>PLAN</small><strong>{{ analysis.plan.rollout_steps | length }} rollout stages, {{ analysis.region_exposures | length }} regions</strong><p>Generated SQL, validation queries and rollback, ordered by dependency and owner.</p></div>
+    <b>Open Fix Studio →</b>
+  </a>
+  <a class="journey-step" href="/datahub{{ nav_query }}">
+    <span class="journey-index">4</span>
+    <div><small>APPROVE</small><strong>{{ proposals | length }} draft DataHub actions</strong><p>Incident, tag and documentation drafts wait for a person. Nothing writes back on its own.</p></div>
+    <b>Review approvals →</b>
+  </a>
 </section>
 {% endif %}
 

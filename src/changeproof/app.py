@@ -22,6 +22,7 @@ from .demo import DemoAnalysis, DemoInputError, catalog_options
 from .document_ai import DocumentAiUnavailable, DocumentInterpretation, interpret_document
 from .document_ingest import DocumentIngestError, DocumentText, extract_document
 from .enterprise import analyze_enterprise_change
+from .graph import build_lineage_graph
 from .exports import ARTIFACT_EXPORTS, ARTIFACT_FIELDS, all_results_text, artifact_text, pdf_bytes
 from .live import analyze_live_change
 from .triage import (
@@ -151,9 +152,22 @@ def create_app(analysis_provider: AnalysisProvider | None = None) -> FastAPI:
                 ),
                 "artifact_exports": ARTIFACT_EXPORTS,
                 "ai_available": bool(os.getenv("OPENAI_API_KEY")),
+                "graph": build_lineage_graph(analysis) if analysis and page == "impact" else None,
+                "triage_summary": overview_triage_summary() if page == "analyze" else None,
             },
             status_code=status_code,
         )
+
+    def overview_triage_summary() -> dict[str, int]:
+        result = build_triage_result(SAMPLE_INCIDENT_QUESTION, SAMPLE_SRS_TEXT)
+        rules = len(result.rules)
+        mapped = len(result.mappings)
+        return {
+            "rules": rules,
+            "mapped": mapped,
+            "coverage": round(100 * mapped / rules) if rules else 0,
+            "domains": len(result.domains),
+        }
 
     def render_triage(
         request: Request,

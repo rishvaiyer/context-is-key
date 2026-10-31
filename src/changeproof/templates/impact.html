@@ -14,6 +14,36 @@
   <article class="metric-card metric-wide"><span class="metric-icon green">✓</span><div><small>EVIDENCE CONFIDENCE</small><strong>{{ analysis.impact.confidence.value }}</strong><p>Bounded to observed metadata</p></div></article>
 </section>
 
+{% if graph %}
+<section class="panel dep-graph-panel">
+  <div class="panel-heading"><div><span class="section-index">00</span><h2>Dependency map</h2><p>Solid lines are DataHub column lineage. Dashed lines are SQL Server modules found by scanning code, which catalog lineage never showed. Later hops join through a shared bus, so no parent is invented.</p></div><span class="evidence-source">OBSERVED + DISCOVERED</span></div>
+  <div class="dep-graph-scroll">
+    <svg class="dep-graph" viewBox="0 0 {{ graph.width | round(0) }} {{ graph.height | round(0) }}" width="{{ graph.width | round(0) }}" height="{{ graph.height | round(0) }}" role="img" aria-label="Dependency map for {{ analysis.source_label }}">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#aab2c6"></path></marker>
+        <marker id="arrow-hidden" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"></path></marker>
+      </defs>
+      {% for x, title in graph.columns %}<text class="dep-col" x="{{ x }}" y="{{ 18 }}" text-anchor="middle">{{ title }}</text>{% endfor %}
+      {% if analysis.sql_dependencies %}<text class="dep-col dep-col-hidden" x="{{ graph.nodes[0].x }}" y="{{ graph.lane_y - 14 }}">Hidden SQL consumers · not in DataHub lineage</text>{% endif %}
+      {% for x, y1, y2 in graph.buses %}<line class="dep-bus" x1="{{ x }}" y1="{{ y1 }}" x2="{{ x }}" y2="{{ y2 }}"></line>{% endfor %}
+      {% for edge in graph.edges %}
+      <path class="dep-edge dep-edge-{{ edge.kind }}" d="{{ edge.path }}"{% if edge.kind in ("lineage", "bus-arrow") %} marker-end="url(#arrow)"{% elif edge.kind == "hidden" %} marker-end="url(#arrow-hidden)"{% endif %}></path>
+      {% endfor %}
+      {% for node in graph.nodes %}
+      <g class="dep-node dep-node-{{ node.kind }}" transform="translate({{ node.x }},{{ node.y }})">
+        <rect width="{{ node.w }}" height="{{ node.h }}" rx="12"></rect>
+        <rect class="dep-accent" x="0" y="0" width="5" height="{{ node.h }}" rx="2"></rect>
+        <text class="dep-badge" x="16" y="18">{{ node.badge }}</text>
+        <text class="dep-label" x="16" y="37">{{ node.label }}</text>
+        <text class="dep-sub" x="16" y="52">{{ node.sub }}</text>
+      </g>
+      {% endfor %}
+    </svg>
+  </div>
+  <div class="dep-legend"><span><i class="l-source"></i>Source field</span><span><i class="l-dataset"></i>DataHub asset</span><span><i class="l-critical"></i>Critical asset</span><span><i class="l-sql"></i>Hidden SQL module</span><span><i class="l-review"></i>Needs manual review</span></div>
+</section>
+{% endif %}
+
 <section class="panel graph-panel">
   <div class="panel-heading"><div><span class="section-index">01</span><h2>DataHub lineage</h2><p>{{ analysis.impact.impacted_assets | length }} observed assets connected to the proposed field.</p></div><span class="evidence-source">MCP EVIDENCE</span></div>
   <div class="lineage-graph">
