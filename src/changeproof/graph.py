@@ -115,15 +115,18 @@ def build_lineage_graph(analysis) -> LineageGraph:
         columns.append((col_x(index) + NODE_W / 2, f"Hop {hop}"))
         if index == 1:
             for node in current:
-                edges.append(GraphEdge(path=_curve(source.x + NODE_W, source.cy, node.x, node.cy), kind="lineage"))
+                path = _curve(source.x + NODE_W, source.cy, node.x, node.cy)
+                edges.append(GraphEdge(path=path, kind="lineage"))
         else:
             bus_x = col_x(index) - COL_GAP / 2
             ys = [node.cy for node in previous + current]
             buses.append((bus_x, min(ys), max(ys)))
             for node in previous:
-                edges.append(GraphEdge(path=f"M{node.x + NODE_W:.1f},{node.cy:.1f} L{bus_x:.1f},{node.cy:.1f}", kind="bus"))
+                path = f"M{node.x + NODE_W:.1f},{node.cy:.1f} L{bus_x:.1f},{node.cy:.1f}"
+                edges.append(GraphEdge(path=path, kind="bus"))
             for node in current:
-                edges.append(GraphEdge(path=f"M{bus_x:.1f},{node.cy:.1f} L{node.x:.1f},{node.cy:.1f}", kind="bus-arrow"))
+                path = f"M{bus_x:.1f},{node.cy:.1f} L{node.x:.1f},{node.cy:.1f}"
+                edges.append(GraphEdge(path=path, kind="bus-arrow"))
         previous = current
 
     lane_y = top + lane_h + LANE_GAP

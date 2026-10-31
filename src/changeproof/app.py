@@ -22,8 +22,8 @@ from .demo import DemoAnalysis, DemoInputError, catalog_options
 from .document_ai import DocumentAiUnavailable, DocumentInterpretation, interpret_document
 from .document_ingest import DocumentIngestError, DocumentText, extract_document
 from .enterprise import analyze_enterprise_change
-from .graph import build_lineage_graph
 from .exports import ARTIFACT_EXPORTS, ARTIFACT_FIELDS, all_results_text, artifact_text, pdf_bytes
+from .graph import build_lineage_graph
 from .live import analyze_live_change
 from .triage import (
     SAMPLE_INCIDENT_QUESTION,
