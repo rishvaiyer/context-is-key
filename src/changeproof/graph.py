@@ -153,4 +153,12 @@ def build_lineage_graph(analysis) -> LineageGraph:
             )
     width = max(node.x + node.w for node in nodes) + PAD
     height = max(node.y + node.h for node in nodes) + PAD + (26 if modules else 0)
-    return LineageGraph(width=width, height=height, nodes=nodes, edges=edges, buses=buses, lane_y=lane_y, columns=columns)
+    return LineageGraph(
+        width=width,
+        height=height,
+        nodes=nodes,
+        edges=edges,
+        buses=buses,
+        lane_y=lane_y,
+        columns=columns,
+    )
