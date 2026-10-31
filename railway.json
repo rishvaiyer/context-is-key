@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "uvicorn changeproof.app:app --host 0.0.0.0 --port $PORT",
+    "startCommand": "sh -c \"(test -x .venv/bin/uvicorn && exec .venv/bin/uvicorn changeproof.app:app --host 0.0.0.0 --port $PORT) || exec python -m uvicorn changeproof.app:app --host 0.0.0.0 --port $PORT\"",
     "healthcheckPath": "/healthz",
     "healthcheckTimeout": 120,
     "restartPolicyType": "ON_FAILURE",
